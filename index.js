@@ -15,20 +15,24 @@ const convertToStringFromListObjs = (listObjs) => {
     if (ele.x - current.x === nodeDistance) {
       dicLevel[ele.x] = `${dicLevel[ele.x - 1]}${ele.name}`;
       current = ele;
-    } else if (dicLevel[ele.x]) {
+      continue;
+    }
+
+    if (dicLevel[ele.x]) {
       result.push(dicLevel[current.x]);
       if (i === listObjs.length - 1) {
         result.push(ele.name);
       }
       dicLevel[ele.x] = (dicLevel[ele.x - 1] || "") + ele.name;
       current = ele;
-    } else {
-      if (dicLevel[current.x]) result.push(dicLevel[current.x]);
-      dicLevel = {
-        [ele.x]: ele.name,
-      };
-      current = ele;
+      continue;
     }
+
+    if (dicLevel[current.x]) result.push(dicLevel[current.x]);
+    dicLevel = {
+      [ele.x]: ele.name,
+    };
+    current = ele;
   }
 
   return result;
